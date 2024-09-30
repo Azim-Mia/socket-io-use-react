@@ -25,13 +25,14 @@ app.use(express.static('client/build'))
 
 //client all path access
 app.get('*', (req,res)=>{
-  res.sendFile(__dirname, 'client','build','index.html');
+  res.sendFile(path.resolve(__dirname, 'client','build','index.html'));
 })
 io.on('connection',(socket)=>{
   setTimeout(()=>{
     socket.emit('smg', "This is Server data Bangladesh");
   },1000)
 })
+
 app.get('/express-server', (req,res)=>{
   res.send("successfull server create");
 })
