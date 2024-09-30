@@ -1,15 +1,23 @@
 import {Component} from 'react';
 import io from 'socket.io-client';
 class App extends Component {
+constructor(){
+  super();
+  this.state ={
+    message:"",
+  }
+}
 componentDidMount(){
 //connect server..
-  io.connect('/');
+ const socket= io.connect('/');
+ socket.on('smg', (data)=>{
+   this.setState({message:data});
+ })
 }
   render(){
-  alert("hi2");
 return (<> 
-{alert("hi3")}
-    <p>hellow bangladesh</p>
+<h1>Wait Server..</h1>
+    <p>{this.state.message}</p>
 </>)
   }
 }

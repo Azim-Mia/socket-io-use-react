@@ -10,11 +10,16 @@ const io = new Server(expressServer)
 
 //socket connect 
 io.on('connection', (socket)=>{
-  console.log("User is connect")
+  console.log("New User is connected")
   socket.on('disconnect', ()=>{
-    console.log("User is dis connect");
+    console.log("User is disconnected");
   })
 })
+//server to client data send..
+io.on('connection', (socket)=>{
+  socket.send('server data')
+})
+
 //connect client
 app.use(express.static('client/build'))
 
@@ -22,7 +27,11 @@ app.use(express.static('client/build'))
 app.get('*', (req,res)=>{
   res.sendFile(__dirname, 'client','build','index.html');
 })
-
+io.on('connection',(socket)=>{
+  setTimeout(()=>{
+    socket.emit('smg', "This is Server data Bangladesh");
+  },1000)
+})
 app.get('/express-server', (req,res)=>{
   res.send("successfull server create");
 })
